@@ -6,8 +6,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Mulish:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Abril Fatface' rel='stylesheet'>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Marrakech — compleet overzicht</title>
 <style>
+  html{scroll-behavior:smooth;}
   :root{
     --terracotta:#E27A5A;
     --coral:#E8A9A1;
@@ -45,6 +47,7 @@
     background-size:cover;
     background-position:center 40%;
     will-change:background-position;
+    filter:saturate(1.45);
   }
   header.hero .hero-inner{
     position:relative;
@@ -96,12 +99,6 @@
     text-transform:uppercase;
     opacity:0.8;
     text-shadow:0 2px 8px rgba(0,0,0,0.5);
-  }
-  @media (max-width:700px){
-    body{font-size:20px;}
-    header.hero h1{font-size:3.1em;}
-    header.hero .hero-subtitle{font-size:1em;letter-spacing:0.36em;}
-    header.hero .hero-intro{font-size:1.8em;}
   }
   nav.toc{
     background:rgba(232,169,161,0.1);
@@ -258,6 +255,24 @@
     color:var(--muted);
     margin-top:60px;
   }
+  .back-to-top{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:fit-content;
+    margin:36px 0 0 auto;
+    padding:8px 16px;
+    border-radius:20px;
+    background:var(--sand-light);
+    color:var(--terracotta);
+    text-decoration:none;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.9em;
+    line-height:1;
+    transition:background-color 0.15s ease, transform 0.15s ease;
+  }
+  .back-to-top:hover{background:var(--sand);transform:translateY(-2px);}
   .note{
     background:#fff8ec;
     border-left:4px solid var(--terracotta);
@@ -267,11 +282,25 @@
     font-size:0.92em;
     margin-bottom:40px;
   }
+  @media (max-width:700px){
+    body{font-size:18px;}
+    header.hero h1{font-size:3.3em;}
+    header.hero .hero-subtitle{font-size:0.7em;letter-spacing:0.36em;}
+    header.hero .hero-intro{font-size:1em;}
+    section.category > h2{font-size:2em;}
+    .item{font-size:0.85em;flex-direction:column;}
+    .item .address{font-size:0.95em;}
+    .item .meta{font-size:1em;margin-bottom:0;}
+    .item .content{flex:1 1 auto;}
+    .item .insta{font-size:0.9em;}
+    .item .photo{flex:0 0 auto;width:100%;height:auto;aspect-ratio:1/1;margin:0 auto 24px;}
+    nav.toc{font-size:0.8em;}
+  }
 </style>
 </head>
 <body>
 
-<header class="hero">
+<header class="hero" id="top">
   <div class="hero-inner">
     <h1>Marrakech</h1>
     <p class="hero-subtitle">Girl trip edition</p>
@@ -468,6 +497,7 @@
       <p class="desc">Toegangspoort tot de Kasbah-wijk, de meer residentiële wijk van de medina.</p>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= FOOD ================= -->
@@ -595,6 +625,7 @@
       <p class="desc">Volgens een onbekende bron dé beste Marokkaanse street food-plek voor msemen, een Marokkaanse pannenkoek.</p>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= ROOFTOP ================= -->
@@ -676,6 +707,7 @@
       <p class="desc">Rooftop garden restaurant en sushibar. Van 10:00 tot 19:00 kan je aan het zwembad zitten, later ook aan de bar.</p>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= ZWEMBAD ================= -->
@@ -721,6 +753,7 @@
       <p class="desc">Luxe hotel/resort net buiten Marrakech, in de Palmeraie.</p>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= INTERIEUR ================= -->
@@ -763,6 +796,7 @@
       <div class="meta"><b>Openingsuren:</b> maandag t/m zaterdag 10:00–18:00</div>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= SHOP ================= -->
@@ -841,6 +875,7 @@
       <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–20:00</div>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= SOUK ================= -->
@@ -905,6 +940,7 @@
       <div class="meta"><b>Openingsuren:</b> dagelijks, ca. 9:00–19:00</div>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= SPA ================= -->
@@ -929,6 +965,7 @@
       <p class="desc">Tip: heel vroeg vooraf al boeken.</p>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 <!-- ================= DAGUITSTAP ================= -->
@@ -998,6 +1035,7 @@
       <p class="desc">Watervallen waar je met een boot bij kunt komen; in de Ourika-vallei kun je met de voetjes in het water eten.</p>
     </div>
   </div>
+  <a href="#top" class="back-to-top" title="Terug naar boven" aria-label="Terug naar boven">▲ naar top</a>
 </section>
 
 </div>
