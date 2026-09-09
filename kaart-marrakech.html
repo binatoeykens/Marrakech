@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marrakech — kaart</title>
-<link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />
+<link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Mulish:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -48,9 +48,24 @@
     max-height:60vh;
     overflow-y:auto;
   }
+  /* Reset: de browser geeft een <button> standaard een rand die soms wel,
+     soms niet verschijnt (afhankelijk van klik vs. toetsenbord-navigatie) —
+     vandaar de wisselende witte/oranje randjes. Border/outline volledig
+     uit, met één eigen, consistente hover/focus-stijl in de plaats. */
   .maplibregl-popup-close-button{
+    top:4px;
+    right:4px;
     color:#fff;
     font-size:1.1em;
+    border:none;
+    outline:none;
+    background:transparent;
+    border-radius:50%;
+    transition:background-color 0.15s ease;
+  }
+  .maplibregl-popup-close-button:hover,
+  .maplibregl-popup-close-button:focus-visible{
+    background:rgba(255,255,255,0.18);
   }
   .maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
   .maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
@@ -438,7 +453,7 @@
   </div>
 </div>
 
-<script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
 <script>
   // Gratis, key-loze vector-kaart via OpenFreeMap (MapLibre GL JS),
   // met hun kant-en-klare "positron"-stijl (licht, leesbaar).
