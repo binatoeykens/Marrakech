@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Abril Fatface' rel='stylesheet'>
+<meta charset="UTF-8">
+<title>Marrakech — compleet overzicht</title>
+<style>
+  :root{
+    --terracotta:#E27A5A;
+    --blue:#8FC4B8;
+    --blue-dark:#437F71;
+    --sand:#f5d8cc8d;
+    --sand-light:#f5d8cc4d;
+    --ink:#2b2420;
+    --muted:#7a6f63;
+  }
+  body{
+    font-family: 'Lato', 'Roboto', sans-serif;
+    background:var(--sand-light);
+    color:var(--ink);
+    margin:0;
+    padding:0;
+    line-height:1.55;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:40px 28px 100px;}
+  header.hero{
+    position:relative;
+    height:100vh;
+    min-height:480px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    overflow:hidden;
+    background-image:
+      linear-gradient(180deg, rgba(20,20,30,0.35) 0%, rgba(20,20,30,0.15) 45%, rgba(20,20,30,0.65) 100%),
+      url('https://images.pexels.com/photos/17649841/pexels-photo-17649841.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+  }
+  header.hero .hero-inner{
+    position:relative;
+    z-index:2;
+    padding:0 20px;
+    margin-top:20vh;
+    max-width:600px;
+  }
+  header.hero h1{
+    font-family:'Playfair Display', Georgia, serif;
+    font-weight:600;
+    font-size:5.5em;
+    margin:0 0 12px;
+    letter-spacing:2px;
+    text-shadow:0 3px 18px rgba(0,0,0,0.55);
+  }
+  header.hero p{
+    font-family:'Lato';
+    font-size:1.2em;
+    opacity:0.95;
+    margin:0;
+    text-shadow:0 2px 10px rgba(0,0,0,0.5);
+  }
+  header.hero .scroll-hint{
+    position:absolute;
+    bottom:28px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.8em;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    opacity:0.8;
+    text-shadow:0 2px 8px rgba(0,0,0,0.5);
+  }
+  @media (max-width:700px){
+    header.hero{background-attachment:scroll;}
+    header.hero h1{font-size:2.6em;}
+  }
+  nav.toc{
+    background:white;
+    border:1px solid #e5dcc9;
+    border-radius:8px;
+    padding:20px 26px;
+    margin:40px auto 40px;
+    max-width:840px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size:0.95em;
+  }
+  nav.toc h2{margin-top:0;font-family:Georgia,serif;color:var(--terracotta);font-size:1.1em;}
+  nav.toc a{color:var(--blue);text-decoration:none;}
+  nav.toc a:hover{text-decoration:underline;}
+  nav.toc ul{columns:2;-webkit-columns:2;list-style:none;padding-left:0;}
+  nav.toc li{margin-bottom:6px;break-inside:avoid;}
+
+  section.category{margin:56px 0;}
+  section.category > h2{
+    font-size:2.2em;
+    color:var(--terracotta);
+    padding-bottom:10px;
+    margin-bottom:26px;
+    font-family:'Playfair Display', Georgia, serif;
+  }
+  .item{
+    background:white;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,0.07);
+    margin-bottom:28px;
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .item .photo{
+    flex:0 0 260px;
+    min-height:180px;
+    background-size:cover;
+    background-position:center;
+    background-color:#e5dcc9;
+  }
+  .item .photo.placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.85em;
+    text-align:center;
+    padding:10px;
+  }
+  .item .content{
+    flex:1 1 380px;
+    padding:20px 24px;
+  }
+  .item h3{
+    font-family:'Playfair Display', Georgia, serif;
+    margin:10px 0 4px;
+    font-size:1.5em;
+    color:var(--ink);
+  }
+  .item .address{
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.85em;
+    color:var(--muted);
+    margin-bottom:18px;
+  }
+  .item .desc{margin:0 0 30px;}
+  .item .meta{
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.88em;
+    color:var(--ink);
+    border:1px dashed var(--blue);
+    border-radius:8px;
+    padding:10px 14px;
+    margin-bottom:20px;
+  }
+  .item .meta b{color:var(--blue-dark);}
+  .item .insta{
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.82em;
+  }
+  .item .insta a{color:var(--blue);}
+  footer{
+    text-align:center;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.85em;
+    color:var(--muted);
+    margin-top:60px;
+  }
+  .note{
+    background:#fff8ec;
+    border-left:4px solid var(--terracotta);
+    padding:16px 20px;
+    border-radius:8px;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.92em;
+    margin-bottom:40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Marrakech</h1>
+    <p>Compleet overzicht — bezienswaardigheden, eten, rooftops, zwembaden, shoppen &amp; dagtrips</p>
+  </div>
+  <div class="scroll-hint">▾ scroll</div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Inhoud</h2>
+  <ul>
+    <li><a href="#visit">Bezienswaardigheden</a></li>
+    <li><a href="#eten">Eten &amp; drinken</a></li>
+    <li><a href="#rooftop">Rooftops &amp; bars</a></li>
+    <li><a href="#zwembad">Zwembaden &amp; dagpasses</a></li>
+    <li><a href="#interieur">Interieur &amp; conceptstores</a></li>
+    <li><a href="#shop">Shops &amp; boetieks</a></li>
+    <li><a href="#souk">Souks</a></li>
+    <li><a href="#spa">Spa &amp; hammam</a></li>
+    <li><a href="#daguitstap">Dagtrips buiten Marrakech</a></li>
+  </ul>
+</nav>
+
+<!-- ================= VISIT ================= -->
+<section class="category" id="visit">
+  <h2>Bezienswaardigheden</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/9.jpg')"></div>
+    <div class="content">
+      <h3>Jardin Majorelle</h3>
+      <div class="address">Rue Yves St Laurent, 40090 Marrakech</div>
+      <p class="desc">Botanische tuin aangelegd door Jacques Majorelle, later gekocht door Yves Saint Laurent (1980). Waarom bezoeken: de intens blauwe gebouwen ("Majorelle-blauw"), weelderige cactustuinen en rustige sfeer — ook de plek waar YSL's as werd verstrooid.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 8:00–18:30 (laatste toegang 18:00)<br><b>Prijs:</b> 170 DH; studenten en kinderen vanaf 10 jaar: 95 DH; kinderen onder 10 jaar gratis</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dcs7ldGDSu7/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/11.jpg')"></div>
+    <div class="content">
+      <h3>Ben Youssef Madrasa</h3>
+      <div class="address">Medina van Marrakech</div>
+      <p class="desc">14e-eeuws islamitisch college, ooit een van de grootste Koranscholen van Noord-Afrika. Waarom bezoeken: prachtig cederhouten snijwerk, mozaïektegels en een rustige binnenplaats met wasbekken.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–19:00<br><b>Prijs:</b> 50 DH; kinderen onder 12 jaar: 10 DH; groepen groter dan 20: 30 DH per persoon</div>
+      <div class="insta"><a href="https://www.instagram.com/p/C8Cpa74OJ6f/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/20.webp')"></div>
+    <div class="content">
+      <h3>Le Jardin Secret</h3>
+      <div class="address">121 Rue Mouassine, 40030 Marrakech</div>
+      <p class="desc">Een van de grootste en oudste riads in de medina, recent gerestaureerd. Waarom bezoeken: twee tuinen (een exotische en een traditioneel islamitische), rustig oase-gevoel middenin de drukke medina.</p>
+      <div class="meta"><b>Openingsuren:</b> niet vermeld — check ter plekke</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DY5D7ERxfxl/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/21.webp')"></div>
+    <div class="content">
+      <h3>Maison de la Photographie</h3>
+      <div class="address">46 Rue Ahl Fes, Bin Lafnadek, 40030 Marrakech</div>
+      <p class="desc">Fotografiemuseum met historische foto's van Marokko (1870–1960). Waarom bezoeken: unieke blik op het Marokko van vroeger, plus een van de hoogste dakterrassen van de medina.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:30–19:00<br><b>Prijs:</b> 80 DH; Marokkaanse residenten: 50 DH; onder 15 jaar gratis</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DUt8NFGjGIb-photo/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/22.jpg')"></div>
+    <div class="content">
+      <h3>Yves Saint Laurent Museum</h3>
+      <div class="address">Rue Yves Saint Laurent, 40090 Marrakech</div>
+      <p class="desc">Museum gewijd aan Yves Saint Laurent, naast Jardin Majorelle. Waarom bezoeken: duizenden kledingstukken en accessoires uit zijn collectie, in een opvallend gebouw van baksteen van Studio KO.</p>
+      <div class="meta"><b>Openingsuren:</b> woensdag t/m maandag 10:00–18:00 (gesloten op dinsdag)<br><b>Prijs:</b> 135 DH los; combiticket met Jardin Majorelle + Berbermuseum: 315 DH</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DUt8NFGjGIb/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/31.webp')"></div>
+    <div class="content">
+      <h3>Jemaa el-Fna</h3>
+      <div class="address">Place Jemaa el-Fna, Medina, 40000 Marrakech</div>
+      <p class="desc">Het bruisende hart van Marrakech: kraampjes, straatartiesten en slangenbezweerders overdag, 's avonds vullen street food-stalletjes het hele plein. Boek eventueel een foodtour om de beste gerechten te proeven.</p>
+      <div class="meta"><b>Openingsuren:</b> altijd toegankelijk, 's avonds het levendigst</div>
+      <div class="insta"><a href="https://www.instagram.com/p/CWbQcgMIqcr/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/50.jpg')"></div>
+    <div class="content">
+      <h3>Bab el-Khemis</h3>
+      <div class="address">Noordelijke poort van de medina, Marrakech</div>
+      <p class="desc">Noordelijke stadspoort naar een andere, minder toeristische souk. Waarom bezoeken: authentieker marktgevoel, vooral levendig op donderdag en zondag.</p>
+      <div class="meta"><b>Beste moment:</b> donderdag en zondag</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/56.jpg')"></div>
+    <div class="content">
+      <h3>Bahia Palace</h3>
+      <div class="address">5 Rue Riad Zitoun el Jdid, 40000 Marrakech</div>
+      <p class="desc">19e-eeuws paleis. Waarom bezoeken: indrukwekkende mozaïekpatio's, tuinen met sinaasappelbomen, originele glas-in-loodramen van het harem-gedeelte.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–17:00<br><b>Prijs:</b> 70 DH</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Cp3TCEDtyj9/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/59.webp')"></div>
+    <div class="content">
+      <h3>Koutoubia Moskee</h3>
+      <div class="address">Avenue Mohammed V, Medina, 40000 Marrakech</div>
+      <p class="desc">Grootste moskee van Marrakech (12e eeuw). Waarom bezoeken: 77 meter hoge minaret, 's avonds prachtig verlicht. Niet-moslims mogen het gebouw niet betreden, maar de tuinen eromheen zijn altijd vrij toegankelijk.</p>
+      <div class="meta"><b>Openingsuren:</b> tuinen altijd toegankelijk<br><b>Prijs:</b> gratis</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DYzPPe1jWhA/?img_index=1" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/60.jpg')"></div>
+    <div class="content">
+      <h3>El Badi Paleis</h3>
+      <div class="address">Ksibat Nhass, 40000 Marrakech</div>
+      <p class="desc">Ruïne van een 16e-eeuws paleis, ooit "het achtste wereldwonder" genoemd. Waarom bezoeken: enorme verzonken tuinen, weidse binnenplaats, ooievaarsnesten op de muren.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–17:00 (tijdens Ramadan ca. 10:00–16:00)<br><b>Prijs:</b> 70 DH</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DKADNG_NGjR/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/61.jpg')"></div>
+    <div class="content">
+      <h3>Dar El Bacha Museum</h3>
+      <div class="address">Rue Fatima Zahra, Marrakech 40000, Marokko</div>
+      <p class="desc">Voormalig paleis van Thami El Glaoui, tegenwoordig het "Musée des Confluences". Waarom bezoeken: prachtige riad-architectuur, zellige-tegels, wisselende tentoonstellingen.</p>
+      <div class="meta"><b>Openingsuren:</b> dinsdag t/m zondag 10:00–18:00 (gesloten op maandag)<br><b>Prijs:</b> 60 DH voor buitenlanders; 15 DH onder 18 jaar; gratis op woensdag voor scholieren en op vrijdag voor Marokkanen/residenten</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DJOmWgnofip/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/62.jpeg')"></div>
+    <div class="content">
+      <h3>Saadi-tombes</h3>
+      <div class="address">Rue de la Kasbah, 40000 Marrakech</div>
+      <p class="desc">16e-eeuwse koninklijke necropolis, tot 1917 verborgen gebleven (herontdekt via luchtfoto's). Waarom bezoeken: rijk met mozaïek versierde grafkamers, Italiaans marmer en vergulde stucwerk.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–17:00<br><b>Prijs:</b> 70 DH</div>
+      <div class="insta"><a href="https://www.instagram.com/p/C8HnfHNCXrl/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/63.jpg')"></div>
+    <div class="content">
+      <h3>Menara Gardens</h3>
+      <div class="address">Avenue de la Ménara, 40000 Marrakech (ten westen van de medina)</div>
+      <p class="desc">12e-eeuwse tuin met olijfbomen rond een groot bassin. Waarom bezoeken: iconisch groen paviljoen met uitzicht op het water en de Atlas — een rustiger alternatief voor Jardin Majorelle.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks, doorgaans 8:00–17:00 of 19:00 (varieert per bron)<br><b>Prijs:</b> tuin gratis; paviljoen 10 DH (lokaal) / 50 DH (buitenlands)</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dc1bA2BI6bt/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/64.jpg')"></div>
+    <div class="content">
+      <h3>Rahba Kedima Square</h3>
+      <div class="address">Place des Épices, Medina van Marrakech</div>
+      <p class="desc">Historisch "kruidenplein". Waarom bezoeken: kraampjes vol specerijen en kruiden, omringd door mooie architectuur — door National Geographic verkozen tot een van de mooiste kruidenmarkten ter wereld.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/B0nBOcqo6Ke/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/65.jpg')"></div>
+    <div class="content">
+      <h3>Marrakech Museum</h3>
+      <div class="address">Dar Menebhi Palace, Place Ben Youssef, Medina, 40000 Marrakech</div>
+      <p class="desc">Museum in het 19e-eeuwse Dar Menebhi-paleis. Waarom bezoeken: indrukwekkende patio met gigantische lamp, collectie wapens/aardewerk/traditionele objecten, ook een hamam te bezichtigen.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–18:00<br><b>Prijs:</b> 70 DH; kinderen onder 12 jaar: 20 DH</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DZFXp9BjQfJ/?img_index=1" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/69.webp')"></div>
+    <div class="content">
+      <h3>Ramakech (sculpture art park)</h3>
+      <div class="address">CR et caidat, Al Ouidane, Bab Atlas, 40000 Marrakech</div>
+      <p class="desc">Sculpture art park met kunstwerken in de natuur.</p>
+      <div class="meta"><b>Openingsuren:</b> woensdag t/m zondag, 10:00–15:30, enkel op reservering</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DHt2pn_qV7K/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/72.webp')"></div>
+    <div class="content">
+      <h3>Bab Agnaou</h3>
+      <div class="address">Rue Oqba Ben Nafaa, Kasbah, Marrakech</div>
+      <p class="desc">Toegangspoort tot de Kasbah-wijk, de meer residentiële wijk van de medina.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/B4iPl-8l-1F/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOD ================= -->
+<section class="category" id="eten">
+  <h2>Eten &amp; drinken</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/10.jpg')"></div>
+    <div class="content">
+      <h3>Le Jardin</h3>
+      <div class="address">32 Souk Jeld Sidi Abdelaziz, Rahba Kedima, Medina, 40000 Marrakech</div>
+      <p class="desc">Restaurant in de groen begroeide binnenplaats van een 16e-eeuwse riad. Wat het anders maakt: de weelderige, jungle-achtige patio met bananenbomen en de beroemde pastilla (kippentaart met amandelen, kaneel en poedersuiker).</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 10:00–23:00<br><b>Prijs:</b> gemiddeld ca. 30 USD (± 280 DH) per persoon</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DVJyXygjA_f/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/12.jpg')"></div>
+    <div class="content">
+      <h3>La Trattoria (de Giancarlo)</h3>
+      <div class="address">179 Rue Mohamed Beqal, Gueliz, 40000 Marrakech</div>
+      <p class="desc">Volgens velen de beste Italiaanse keuken van Marrakech, in een prachtige tuin met verlicht zwembad — romantische sfeer, een favoriete dinerlocatie van veel bezoekers.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DaI7IcqsEeV/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/15.webp')"></div>
+    <div class="content">
+      <h3>El Fenn (restaurant)</h3>
+      <div class="address">Derb Moulay Abdullah Ben Hezzian 2, Bab El Ksour, Medina, 40000 Marrakech</div>
+      <p class="desc">Boetiekhotel met eten en drinken, ook toegankelijk voor niet-gasten. Zie ook onder "Zwembaden" voor het dakterras.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Dazeao3REBe/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/19.webp')"></div>
+    <div class="content">
+      <h3>Café des Épices</h3>
+      <div class="address">75 Derb Rahba Lakdima, 40000 Marrakech</div>
+      <p class="desc">Café-restaurant over drie verdiepingen aan het kruidenplein Rahba Kedima. Wat het anders maakt: uitzicht op het kruidenplein, gespecialiseerde kruidenkoffies (kardemom, nootmuskaat, kruidnagel) en een eenvoudig, vers menu.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–23:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DWjynchCoap/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/29.jpg')"></div>
+    <div class="content">
+      <h3>La Mamounia</h3>
+      <div class="address">1 Avenue Bab Jdid, 40000 Marrakech</div>
+      <p class="desc">Legendarisch luxe paleishotel (1923), favoriet van onder anderen Churchill en Hitchcock. Waarom bezoeken: prachtige terrassen en tuinen, 4 restaurants (waaronder 2 Michelin-bekroonde). Ook zonder overnachting te bezoeken voor eten en drinken — reservering nodig.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DKhGK_jKKAd/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/32.jpg')"></div>
+    <div class="content">
+      <h3>Chez Omar</h3>
+      <div class="address">Derb Dabachi Derb Jamaa, Marrakech</div>
+      <p class="desc">Bekende sandwichzaak in de medina. Waarom bezoeken: bestel de gemengde sandwich met kip, pittige merguez, kefta en gegrilde ui.</p>
+      <div class="meta"><b>Openingsuren:</b> sluit om 23:00<br><b>Prijs:</b> 20 DH (± €2)</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Da5z2RlNZ3B/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/33.jpg')"></div>
+    <div class="content">
+      <h3>La Ferme Médina</h3>
+      <div class="address">236 Rue Riad Laarous, Medina, 40030 Marrakech</div>
+      <p class="desc">Riad/restaurant met serre in de binnenplaats, gelegen in de medina.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 8:00–23:30</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DblNkA5sDd0/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/35.webp')"></div>
+    <div class="content">
+      <h3>Naama</h3>
+      <div class="address">46 Rue Fatima Zahra, 40000 Marrakech</div>
+      <p class="desc">Restaurant in de medina.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 12:00–23:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DbjEha7uYoi/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/52.jpg')"></div>
+    <div class="content">
+      <h3>Mizaan</h3>
+      <div class="address">255 Av. Mohammed V, 40000 Marrakech</div>
+      <p class="desc">Restaurant aan de Avenue Mohammed V.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Da2dAlmgJiq/?img_index=1" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/53.jpg')"></div>
+    <div class="content">
+      <h3>Sahbi Sahbi</h3>
+      <div class="address">37 Bd el Mansour Eddahbi, 40000 Marrakech</div>
+      <p class="desc">Restaurant aan de Boulevard el Mansour Eddahbi.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DWmZtDgmIYT/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/54.jpg')"></div>
+    <div class="content">
+      <h3>Pétanque Social Club</h3>
+      <div class="address">70 Bd el Mansour Eddahbi, 40000 Marrakech</div>
+      <p class="desc">Voormalige pétanque-club uit de jaren 20 van de vorige eeuw, met een groene binnenplaats met pétanquebaan en bomen voor schaduw.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DaVLBc1gtVZ/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/55.jpg')"></div>
+    <div class="content">
+      <h3>La Famille</h3>
+      <div class="address">42, Riad Zitoun Jdid, Marrakech</div>
+      <p class="desc">Populair vegetarisch restaurant in het hart van de medina. Dicht bij het Bahia paleis en op een kwartier wandelen van het Jemaa el-Fna plein.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DBWcfeJM-I8/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/42.jpg')"></div>
+    <div class="content">
+      <h3>Msemen (street food)</h3>
+      <div class="address">Straatstalletjes, exacte locatie onbekend</div>
+      <p class="desc">Volgens een onbekende bron dé beste Marokkaanse street food-plek voor msemen, een Marokkaanse pannenkoek.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROOFTOP ================= -->
+<section class="category" id="rooftop">
+  <h2>Rooftops &amp; bars</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/23.jpg')"></div>
+    <div class="content">
+      <h3>L'Amazigh Rooftop</h3>
+      <div class="address">38 Moulay Tayeb, 40030 Marrakech</div>
+      <div class="meta"><b>Openingsuren:</b> gesloten op vrijdag, andere dagen 8:00–23:30</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dcv3PYvnEGP/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/25.jpg')"></div>
+    <div class="content">
+      <h3>Mö-mö</h3>
+      <div class="address">1 Riad Zitoun Lakdim, Place Jemaa El Fnaa, Marrakech</div>
+      <p class="desc">Mooi restaurant aan het Jemaa el-Fna plein.</p>
+      <div class="meta"><b>Openingsuren:</b> 11:00–23:30, geen reservering nodig</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DcsrF0MNegL/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/28.jpg')"></div>
+    <div class="content">
+      <h3>La Fontaine des Épices</h3>
+      <div class="address">131 Rue Mouassine, Medina, Marrakech</div>
+      <p class="desc">Naast Le Jardin Secret in de medina.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Daypk8rMjwJ/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/30.jpg')"></div>
+    <div class="content">
+      <h3>Kabana</h3>
+      <div class="address">Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra, Marrakesh 40000, Marokko</div>
+      <p class="desc">Rooftop restaurant &amp; bar bij de Koutoubia. Wat het anders maakt: mediterraan-Japanse fusion (sushi + cocktails), tropisch decor, levendige avondsfeer met dj's — meer "cabana"-gevoel dan de klassieke medina-rooftops.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 11:00–01:00 (brunch 11:00–17:00)</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dbd2nEsMYVX/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/34.webp')"></div>
+    <div class="content">
+      <h3>Dar Dar</h3>
+      <div class="address">4 Rue Riad Zitoun el Kdim, 40000 Marrakech</div>
+      <p class="desc">Rooftop bar &amp; restaurant vlak bij Jemaa el-Fna. Wat het anders maakt: bohemien inrichting, uitzicht op de Koutoubia en de Atlas, creatieve cocktails met lokale ingrediënten — speelser en meer "party" dan de klassieke rustige rooftops.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 12:00–02:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Db5bZ6UMJiJ/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/36.jpg')"></div>
+    <div class="content">
+      <h3>L'mida</h3>
+      <div class="address">78 Bis Derb Nkhel Rahba Kdima, 40030 Marrakech</div>
+      <p class="desc">Rooftop restaurant, opgericht door twee Parijzenaars. Wat het anders maakt: strikt alcoholvrij (mocktails), moderne Marokkaanse fusionkeuken — bekend om de glutenvrije amandelcake en de "Marhba" mocktail.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 12:00–23:30</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DbjEha7uYoi/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/37.jpg')"></div>
+    <div class="content">
+      <h3>Bidaya</h3>
+      <div class="address">55 Derb Ben Zina, La Kasbah, 40000 Marrakech</div>
+      <p class="desc">Prachtig restaurant op het dak, verborgen tussen de steegjes van de Kasbah.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DbjEha7uYoi/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/38.jpg')"></div>
+    <div class="content">
+      <h3>Nobu</h3>
+      <div class="address">Av. Echouhada et Rue du Temple, 40000 Marrakech</div>
+      <p class="desc">Rooftop garden restaurant en sushibar. Van 10:00 tot 19:00 kan je aan het zwembad zitten, later ook aan de bar.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DZwclEiMyhQ/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ZWEMBAD ================= -->
+<section class="category" id="zwembad">
+  <h2>Zwembaden &amp; dagpasses</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/14.webp')"></div>
+    <div class="content">
+      <h3>El Fenn</h3>
+      <div class="address">Derb Moulay Abdullah Ben Hezzian 2, Bab El Ksour, Medina, 40000 Marrakech</div>
+      <p class="desc">Boetiekhotel, ook toegankelijk voor niet-gasten. Waarom bezoeken: 1.300 m² dakterras met plunge pool en uitzicht op de Koutoubia, kunstcollectie door het hele hotel. Geen reservering nodig voor het dakterras. Zwembad-dagpassen: juni t/m september en december t/m februari.</p>
+      <div class="meta"><b>Openingsuren:</b> rooftopbar dagelijks vanaf 12:30</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dazeao3REBe/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/17.jpg')"></div>
+    <div class="content">
+      <h3>L'Oasis Lodges</h3>
+      <div class="address">KM 4, Route d'Amizmiz, Marrakech</div>
+      <p class="desc">Te boeken via de website: oasislodges.net (dagpas-pagina).</p>
+      <div class="meta"><b>Prijs:</b> 520 MAD per persoon voor lunch + zwembad tot 18:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DZxtK_nxYWa/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/39.jpg')"></div>
+    <div class="content">
+      <h3>Be Agafay</h3>
+      <div class="address">Douar Lmilh Laaroussine, Agafay 40272</div>
+      <p class="desc">Glamping in de Agafay-woestijn, dagpas mogelijk.</p>
+      <div class="meta"><b>Prijs:</b> dagpas met lunch: €50; met diner: €55; lunch + diner: €75</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dbanq8FiBfu/?img_index=1" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/40.jpg')"></div>
+    <div class="content">
+      <h3>Palais Namaskar</h3>
+      <div class="address">Route de Bab Atlas, Marrakech</div>
+      <p class="desc">Luxe hotel/resort net buiten Marrakech, in de Palmeraie.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DbLaZ6AN_Wz/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTERIEUR ================= -->
+<section class="category" id="interieur">
+  <h2>Interieur &amp; conceptstores</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/1.jpg')"></div>
+    <div class="content">
+      <h3>Moro Marrakech</h3>
+      <div class="address">Rue Yves St Laurent, Majorelle, 40000 Marrakech</div>
+      <p class="desc">Concept store vlak bij Jardin Majorelle, opgericht door Mohcyn Bousfiha en Mouad Mohsine. Wat je er vindt: mode, interieurobjecten en geuren (o.a. hun eigen verzorgingslijn The Moroccans), warme ambachtelijke stijl met bronzen accessoires geïnspireerd op Marokkaanse mythes. Er is ook een café in de winkel zelf, plus een restaurant en boetiekhotel op dezelfde plek.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Dc6_D_Ok2ts/?img_index=2" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/2.jpg')"></div>
+    <div class="content">
+      <h3>Lrnce</h3>
+      <div class="address">59 Sidi Ghanem, Marrakech</div>
+      <p class="desc">Interieurmerk van de Belgische kunstenares Laurence Leenaert. Stijl: kleurrijke, met de hand beschilderde keramiek, gestreepte tapijten en wandmeubilair.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DFK5Emyt-In/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/3.jpg')"></div>
+    <div class="content">
+      <h3>Rue 33</h3>
+      <div class="address">33 Rue Yves Saint Laurent, 40000 Marrakech</div>
+      <p class="desc">Marrakech's allereerste conceptstore, met werk van zo'n 90 lokale ontwerpers. Wat je er vindt: mode, sieraden en interieur in een mix van moderne en traditionele Marokkaanse stijlen, met een aangesloten café.</p>
+      <div class="meta"><b>Openingsuren:</b> maandag t/m vrijdag 10:00–13:00 en 14:00–18:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/Dc6_D_Ok2ts/?img_index=4" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/4.webp')"></div>
+    <div class="content">
+      <h3>The Boho Lab</h3>
+      <div class="address">517 Sidi Ghanem, Marrakech</div>
+      <div class="meta"><b>Openingsuren:</b> maandag t/m zaterdag 10:00–18:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DYewW_UNe8K/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHOP ================= -->
+<section class="category" id="shop">
+  <h2>Shops &amp; boetieks</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/5.jpg')"></div>
+    <div class="content">
+      <h3>Different</h3>
+      <div class="address">Rte Sidi Abdelaziz, 40000 Marrakech</div>
+      <p class="desc">Boetiek in de medina. Wat je er vindt: sierlijke, vloeiende kaftans in felle contrasterende kleuren, accessoires, handtassen, handgemaakt aardewerk en lokale cadeautjes.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Dc6_D_Ok2ts/?img_index=7" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/6.png')"></div>
+    <div class="content">
+      <h3>Marie Bastide</h3>
+      <div class="address">32 Rue de la Liberté, 40000 Marrakech</div>
+      <p class="desc">Internationaal gaand merk met geweven tassen met mooie patronen.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DcRNYqZjB1_/?img_index=4" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/7.jpg')"></div>
+    <div class="content">
+      <h3>Chabi Chic</h3>
+      <div class="address">Twee locaties: 322 Sidi Ghanem, en 1 Derb Arjan (medina)</div>
+      <p class="desc">Marokkaans merk (opgericht in 2013) met moderne, kleurrijke stijl. Wat je er vindt: handgemaakt aardewerk, keukengerei en decoratie in gestreepte en traditionele Marokkaanse patronen, ethisch geproduceerd door lokale ambachtslui.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Dc6_D_Ok2ts/?img_index=10" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/16.webp')"></div>
+    <div class="content">
+      <h3>El Fenn Boutique</h3>
+      <div class="address">Derb Moulay Abdullah Ben Hezzian 2, Bab El Ksour, Medina, 40000 Marrakech</div>
+      <p class="desc">Boetiek in het El Fenn-hotel. Wat je er vindt: Marokkaanse stukken met veel oog voor kwaliteit en vakmanschap, zorgvuldig gecureerd — verstopt in een van de mooiste riads van de medina.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DbOt4qBCCZH/?img_index=1" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/18.jpg')"></div>
+    <div class="content">
+      <h3>Boutique Bohemia</h3>
+      <div class="address">Locatie niet vermeld</div>
+      <p class="desc">Handgemaakte Marokkaanse tapijten.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DNDJE0Og69X/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/26.jpg')"></div>
+    <div class="content">
+      <h3>Med in Souk</h3>
+      <div class="address">Rue Azsbezt, Medina, Marrakech</div>
+      <p class="desc">Handtassen en sandalen in de medina.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DZ3J7nNsWSa/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/27.jpg')"></div>
+    <div class="content">
+      <h3>Foundouk Tadlaoui</h3>
+      <div class="address">Db Caid Rasso/192°, 40000 Marrakech</div>
+      <p class="desc">Keramiek en meubelen.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/57.jpg')"></div>
+    <div class="content">
+      <h3>Mustapha Blaoui</h3>
+      <div class="address">142–144 Rue Bab Doukkala, 40000 Marrakech</div>
+      <p class="desc">Legendarisch "Ali Baba-grot"-interieurmagazijn. Wat je er vindt: antiek en vintage meubels, tapijten, lampen en glaswerk — populair bij interieurontwerpers, wereldwijde verzending mogelijk.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks 9:00–20:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/By34e9nhdCn/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOUK ================= -->
+<section class="category" id="souk">
+  <h2>Souks</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/43.jpg')"></div>
+    <div class="content">
+      <h3>Souk Semmarine</h3>
+      <div class="address">Medina van Marrakech</div>
+      <p class="desc">De grootste en bekendste souk van Marrakech. Wat je er vindt: kleding, textiel en keramiek in levendige marktkraampjes.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks, ca. 9:00–19:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DNN7Qc2Mse1/?img_index=2" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/44.webp')"></div>
+    <div class="content">
+      <h3>Souk El Attarine</h3>
+      <div class="address">Medina van Marrakech</div>
+      <p class="desc">De kruiden- en parfumsouk. Wat je er vindt: geurige specerijen, oliën en kruiden, plus fijn koperwerk.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks, ca. 9:00–19:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DNN7Qc2Mse1/?img_index=3" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/45.jpg')"></div>
+    <div class="content">
+      <h3>Souk Smata</h3>
+      <div class="address">Medina van Marrakech</div>
+      <p class="desc">De schoenensouk. Wat je er vindt: handgemaakte Marokkaanse babouches (slippers) in alle kleuren.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks, ca. 9:00–19:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DNN7Qc2Mse1/?img_index=4" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/46.jpg')"></div>
+    <div class="content">
+      <h3>Souk des Bijoutiers</h3>
+      <div class="address">Medina van Marrakech</div>
+      <p class="desc">De juwelensouk. Wat je er vindt: traditionele gouden en zilveren sieraden en authentieke ontwerpen.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks, ca. 9:00–19:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DNN7Qc2Mse1/?img_index=5" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+    <div class="item">
+    <div class="photo" style="background-image:url('assets/51.jpg')"></div>
+    <div class="content">
+      <h3>Souk des Teintures (verversouk)</h3>
+      <div class="address">Rond Le Jardin Secret, Medina van Marrakech</div>
+      <p class="desc">De verfmarkt ("dye market"). Waarom bezoeken: kleurrijke, pas geverfde stoffen die te drogen hangen in de nauwe steegjes.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/B3uqawhh4GB/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/47.jpg')"></div>
+    <div class="content">
+      <h3>Souk Chouari</h3>
+      <div class="address">Medina van Marrakech</div>
+      <p class="desc">De houtbewerkerssouk. Wat je er vindt: prachtig bewerkte houten meubels, deuren en snijwerk.</p>
+      <div class="meta"><b>Openingsuren:</b> dagelijks, ca. 9:00–19:00</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DNN7Qc2Mse1/?img_index=6" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPA ================= -->
+<section class="category" id="spa">
+  <h2>Spa &amp; hammam</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/41.jpeg')"></div>
+    <div class="content">
+      <h3>Yemaya Spa</h3>
+      <div class="address">Angle Avenue Echouhada et Av. de Paris, 40000 Marrakech</div>
+      <p class="desc">Hammam en zwembad.</p>
+      <div class="meta"><b>Prijs:</b> vanaf 860 DH (± €86) voor hammam + massage</div>
+      <div class="insta"><a href="https://www.instagram.com/p/DSxOHK2iD7w/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/71.jpg')"></div>
+    <div class="content">
+      <h3>La Sultana</h3>
+      <div class="address">403 Rue de la Kasbah, Marrakech</div>
+      <p class="desc">Tip: heel vroeg vooraf al boeken.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DXHit0SsyT8/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DAGUITSTAP ================= -->
+<section class="category" id="daguitstap">
+  <h2>Dagtrips buiten Marrakech</h2>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/13.jpg')"></div>
+    <div class="content">
+      <h3>Ourika Vallei</h3>
+      <div class="address">Ourika-vallei / Setti Fatma, ca. 60 km / 1 uur rijden ten zuiden van Marrakech</div>
+      <p class="desc">Groene vallei in het Atlasgebergte. Waarom bezoeken: wandeling naar de 7 watervallen van Setti Fatma, Berberdorpjes, arganolie-coöperaties en (op maandag) een lokale markt.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DbYcUecge-w/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/48.jpg')"></div>
+    <div class="content">
+      <h3>Scarabeo, Desert Agafay</h3>
+      <div class="address">Désert Agafay, ca. 40–45 minuten rijden ten zuidwesten van Marrakech</div>
+      <p class="desc">Luxe glampingkamp in de stenen woestijn van Agafay. Waarom bezoeken: sfeervolle tenten, kameelritjes, quad- en zonsondergangtochten met zicht op de Atlas.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DYAHtKhq_XU/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/49.jpeg')"></div>
+    <div class="content">
+      <h3>Alkamar Camp Agafay</h3>
+      <div class="address">Agafay, Marrakech</div>
+      <p class="desc">Luxe glamping in Agafay.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/Dc89c_DKSqp/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/58.jpg')"></div>
+    <div class="content">
+      <h3>Ouarzazate</h3>
+      <div class="address">Ca. 200 km / 3,5–4 uur rijden ten zuiden van Marrakech, via de Tizi n'Tichka-pas</div>
+      <p class="desc">"Hollywood van Marokko": filmstudio's waar onder meer Gladiator en Game of Thrones werden opgenomen.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DU6EundDRxv/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/66.jpeg')"></div>
+    <div class="content">
+      <h3>Essaouira</h3>
+      <div class="address">Essaouira, Marokko</div>
+      <p class="desc">Kuststad met een levendige haven.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DOgLzNVCJtK/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/67.jpg')"></div>
+    <div class="content">
+      <h3>Aït Benhaddou</h3>
+      <div class="address">Ait Ben Haddou, Ouarzazate, Marokko</div>
+      <p class="desc">UNESCO-werelderfgoed waar onder meer Gladiator en Game of Thrones werd opgenomen — te combineren met een bezoek aan Ouarzazate.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DbLiRw8ooxw/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/68.jpg')"></div>
+    <div class="content">
+      <h3>Ouzoud Watervallen</h3>
+      <div class="address">Ouzoud Waterfalls, Marokko</div>
+      <p class="desc">Indrukwekkende watervallen in het Atlasgebergte, ca. 150 km ten noordoosten van Marrakech.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DJwcOxRICqe/?img_index=1" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="photo" style="background-image:url('assets/70.jpg')"></div>
+    <div class="content">
+      <h3>Ourika Waterfalls</h3>
+      <div class="address">Ourika-vallei, Marokko</div>
+      <p class="desc">Watervallen waar je met een boot bij kunt komen; in de Ourika-vallei kun je met de voetjes in het water eten. <b>Let op:</b> volgens de bron momenteel niet aan te raden — alles is er weggespoeld door overstromingen.</p>
+      <div class="insta"><a href="https://www.instagram.com/p/DVyNG2kieHC/" target="_blank">Bekijk op Instagram</a></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  Samengesteld op basis van het Google Sheet "Marrakech" — ruim 70 adressen in 9 categorieën.<br>
+  Prijzen en openingstijden kunnen veranderen; check vlak voor vertrek eventueel de laatste update via de Instagram-links.
+</footer>
+
+</body>
+</html>
