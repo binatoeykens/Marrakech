@@ -98,6 +98,7 @@
     text-shadow:0 2px 8px rgba(0,0,0,0.5);
   }
   @media (max-width:700px){
+    body{font-size:20px;}
     header.hero h1{font-size:3.1em;}
     header.hero .hero-subtitle{font-size:1em;letter-spacing:0.36em;}
     header.hero .hero-intro{font-size:1.8em;}
@@ -1020,6 +1021,8 @@
   var hero = document.querySelector('header.hero');
   var parallaxSpeed = 0.4;
   var ticking = false;
+
+  if (window.innerWidth <= 700) { return; }
 
   function updateParallax(){
     ticking = false;
